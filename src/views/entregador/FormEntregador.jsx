@@ -166,6 +166,7 @@ export default function FormEntregador() {
                                     maxLength="100"
                                     width={5}
                                     placeholder='Ex:20/10/1985'
+                                    mask= "99/99/9999"
                                     value={dataNascimento}
                                     onChange={e => setDataNascimento(e.target.value)}
                                 />
@@ -270,7 +271,7 @@ export default function FormEntregador() {
                                     >
                                     <InputMask
                                         required
-                                        mask="99.999-9  99"
+                                        mask="99.999-999"
                                         value={cep}
                                     onChange={e => setCep(e.target.value)}
                                     />
