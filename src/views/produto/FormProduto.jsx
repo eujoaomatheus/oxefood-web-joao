@@ -1,162 +1,117 @@
-import React, { useState } from "react";
-import axios from "axios";
-import InputMask from 'react-input-mask';
-import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
-import MenuSistema from "../../MenuSistema";
+import React from 'react'
+import InputMask from 'react-input-mask'
+import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react'
+import MenuSistema from '../MenuSistema'
 
+export default function FormProduto() {
+  return (
+    <div>
+      <MenuSistema tela={'produto'} />
+      <div style={{ marginTop: '3%' }}>
+        <Container textAlign='justified'>
+          <h2>
+            {' '}
+            <span style={{ color: 'darkgray' }}>
+              {' '}
+              Produto &nbsp;
+              <Icon
+                name='angle double right'
+                size='small'
+              />{' '}
+            </span>{' '}
+            Cadastro{' '}
+          </h2>
 
-export default function FormCliente () {
+          <Divider />
 
-    const [nome, setNome] = useState();
-    const [cpf, setCpf] = useState();
-    const [dataNascimento, setDataNascimento] = useState();
-    const [foneCelular, setFoneCelular] = useState();
-    const [foneFixo, setFoneFixo] = useState();
+          <div style={{ marginTop: '4%' }}>
+            <Form>
+              <Form.Group widths='equal'>
+                <Form.Input
+                  required
+                  fluid
+                  label='Título'
+                  maxLength='100'
+                />
 
-    const apiURL = "http://localhost:8080/api/cliente"
+                <Form.Input
+                  required
+                  fluid
+                  label='Código do Produto'
+                >
+                  <InputMask
+                    required
+                    mask='999.999.999-99'
+                  />
+                </Form.Input>
+              </Form.Group>
+              <Form.Group widths='equal'>
+                <Form.Input
+                  style={{ height: 80 }}
+                  fluid
+                  label='Descrição'
+                ></Form.Input>
+              </Form.Group>
 
+              <Form.Group>
+                <Form.Input
+                  fluid
+                  label='Fone Celular'
+                  width={6}
+                >
+                  <InputMask mask='(99) 9999.9999' />
+                </Form.Input>
 
-    function salvar() {
+                <Form.Input
+                  fluid
+                  label='Fone Fixo'
+                  width={6}
+                >
+                  <InputMask mask='(99) 9999.9999' />
+                </Form.Input>
 
-		let clienteRequest = {
-		     nome: nome,
-		     cpf: cpf,
-		     dataNascimento: dataNascimento,
-		     foneCelular: foneCelular,
-		     foneFixo: foneFixo
-		}
-	
-		axios.post(apiURL, clienteRequest)
-		.then((response) => {
-		     alert('Cliente cadastrado com sucesso.')
-		})
-		.catch((error) => {
-		     alert  ('Erro ao incluir o um cliente.')
-		})
-	}
+                <Form.Input
+                  fluid
+                  label='Data Nascimento'
+                  width={6}
+                >
+                  <InputMask
+                    mask='99/99/9999'
+                    maskChar={null}
+                    placeholder='Ex: 20/03/1985'
+                  />
+                </Form.Input>
+              </Form.Group>
+            </Form>
 
- 
+            <div style={{ marginTop: '4%' }}>
+              <Button
+                type='button'
+                inverted
+                circular
+                icon
+                labelPosition='left'
+                color='orange'
+              >
+                <Icon name='reply' />
+                Voltar
+              </Button>
 
-    return (
-
-        <div>
-        <MenuSistema />
-
-            <div style={{marginTop: '3%'}}>
-
-                <Container textAlign='justified' >
-
-                    <h2> <span style={{color: 'darkgray'}}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
-
-                    <Divider />
-
-                    <div style={{marginTop: '4%'}}>
-
-                        <Form>
-
-                            <Form.Group widths='equal'>
-
-                                <Form.Input
-                                    required
-                                    fluid
-                                    label='Nome'
-                                    maxLength="100"
-                                    value={nome}
-                                    onChange={e => setNome(e.target.value)}
-                                />
-
-                                <Form.Input
-                                    required
-                                    fluid
-                                    label='CPF'>
-                                    <InputMask
-                                        required
-                                        mask="999.999.999-99"
-                                        value={cpf}
-                                        onChange={e => setCpf(e.target.value)}
-                                    /> 
-                                </Form.Input>
-
-                            </Form.Group>
-                            
-                            <Form.Group>
-
-                                <Form.Input
-                                    fluid
-                                    label='Fone Celular'
-                                    width={6}>
-                                    <InputMask 
-                                        mask="(99) 9999.9999"
-                                        value={foneCelular}
-                                        onChange={e => setFoneCelular(e.target.value)}
-                                    /> 
-                                </Form.Input>
-
-                                <Form.Input
-                                    fluid
-                                    label='Fone Fixo'
-                                    width={6}>
-                                    <InputMask 
-                                        mask="(99) 9999.9999"
-                                        value={foneFixo}
-                                        onChange={e => setFoneFixo(e.target.value)}
-                                    /> 
-                                </Form.Input>
-
-                                <Form.Input
-                                    fluid
-                                    label='Data Nascimento'
-                                    width={6}
-                                >
-                                    <InputMask 
-                                        mask="99/99/9999" 
-                                        maskChar={null}
-                                        placeholder="Ex: 20/03/1985"
-                                        value={dataNascimento}
-                                        onChange={e => setDataNascimento(e.target.value)}
-                                    /> 
-                                </Form.Input>
-
-                            </Form.Group>
-                        
-                        </Form>
-                        
-                        <div style={{marginTop: '4%'}}>
-
-                            <Button
-                                type="button"
-                                inverted
-                                circular
-                                icon
-                                labelPosition='left'
-                                color='orange'
-                            >
-                                <Icon name='reply' />
-                                Voltar
-                            </Button>
-                                
-                            <Button
-                                inverted
-                                circular
-                                icon
-                                labelPosition='left'
-                                color='blue'
-                                floated='right'
-                                onClick={() => salvar()}
-
-                            >
-                                <Icon name='save' />
-                                Salvar
-                            </Button>
-
-                        </div>
-
-                    </div>
-                    
-                </Container>
+              <Button
+                inverted
+                circular
+                icon
+                labelPosition='left'
+                color='blue'
+                floated='right'
+              >
+                <Icon name='save' />
+                Salvar
+              </Button>
             </div>
-        </div>
-
-    );
-
+          </div>
+        </Container>
+      </div>
+    </div>
+  )
 }
