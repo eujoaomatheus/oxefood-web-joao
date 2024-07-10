@@ -52,11 +52,11 @@ function salvar() {
        }
        if (idCliente != null) { //Alteração:
            axios.put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
-           .then(response => { console.log('Cliente alterado com sucesso.',JSON.stringify(response,null,2))},setTimeout(navigate('/list-cliente'),2000))
+           .then(response => { console.log('Cliente alterado com sucesso.',JSON.stringify(response,null,2))},setTimeout(navigate('/list-cliente'),5000))
            .catch(error => { console.log('Erro ao alterar um cliente.',JSON.stringify(error,null,2)) })
        } else { //Cadastro:
            axios.post("http://localhost:8080/api/cliente", clienteRequest)
-           .then((response) => { console.log('Cliente cadastrado com sucesso.',JSON.stringify(response,null,2)) },)
+           .then((response) => { console.log('Cliente cadastrado com sucesso.',JSON.stringify(response,null,2)) },setTimeout(navigate('/list-cliente'),5000))
            .catch((error) => { console.log('Erro ao incluir o cliente.',JSON.stringify(error,null,2)) })
        }
 }
