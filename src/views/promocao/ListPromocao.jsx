@@ -2,13 +2,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Icon, Table ,Modal, Header} from 'semantic-ui-react';
+import { Button, Container, Divider, Icon, Table , Modal, Header} from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
-export default function ListProduto () {
+export default function ListPromocao () {
 
    const [lista, setLista] = useState([]);
-
    const [openModal, setOpenModal] = useState(false);
    const [idRemover, setIdRemover] = useState();
 
@@ -22,20 +21,26 @@ export default function ListProduto () {
 
 async function remover() {
 
-    await axios.delete('http://localhost:8080/api/produto/' + idRemover)
+    await axios.delete('http://localhost:8080/api/promocao/' + idRemover)
     .then((response) => {
 
-        console.log('produto removido com sucesso.')
+        console.log('Promocao removida com sucesso.')
 
-        axios.get("http://localhost:8080/api/produto")
+        axios.get("http://localhost:8080/api/promocao")
         .then((response) => {
             setLista(response.data)
         })
     })
     .catch((error) => {
-        console.log('Erro ao remover um produto.')
+        console.log('Erro ao remover um promocao.')
     })
     setOpenModal(false)
+}
+
+
+function formatMoney(value){
+    value = String(value)
+    return value.replace(".", ",")
 }
 
    useEffect(() => {
@@ -44,12 +49,21 @@ async function remover() {
 
    function carregarLista() {
 
-       axios.get("http://localhost:8080/api/produto")
+       axios.get("http://localhost:8080/api/promocao")
        .then((response) => {
            setLista(response.data)
        })
    }
-   
+   function formatarData(dataParam) {
+
+    if (dataParam === null || dataParam === '' || dataParam === undefined) {
+        return ''
+    }
+
+    let arrayData = dataParam.split('-');
+    
+    return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
+}
 return(
     <div>
         <MenuSistema />
@@ -57,7 +71,7 @@ return(
 
             <Container textAlign='justified' >
 
-                <h2> Produto </h2>
+                <h2> Promoção </h2>
                 <Divider />
 
                 <div style={{marginTop: '4%'}}>
@@ -68,7 +82,7 @@ return(
                         icon='clipboard outline'
                         floated='right'
                         as={Link}
-                        to='/form-produto'
+                        to='/form-promocao'
                     />
  <br/><br/><br/>
                   
@@ -76,51 +90,44 @@ return(
 
                       <Table.Header>
                           <Table.Row>
-                              <Table.HeaderCell>Código</Table.HeaderCell>
-                              <Table.HeaderCell>Categoria</Table.HeaderCell>
-
                               <Table.HeaderCell>Título</Table.HeaderCell>
-                              <Table.HeaderCell>Descrição</Table.HeaderCell>
-                              <Table.HeaderCell>Valor Unitario</Table.HeaderCell>
-                              <Table.HeaderCell>Tempo Entrega Max</Table.HeaderCell>
-                              <Table.HeaderCell>Tempo Entrega Min</Table.HeaderCell>
+                              <Table.HeaderCell>Regra</Table.HeaderCell>
+                              <Table.HeaderCell>Valor Desconto (R$)</Table.HeaderCell>
+                              <Table.HeaderCell>A partir de</Table.HeaderCell>
+                              <Table.HeaderCell>Terminado em</Table.HeaderCell>
                               <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
                           </Table.Row>
                       </Table.Header>
                  
                       <Table.Body>
 
-                          { lista.map(produto => (
+                          { lista.map(promocao => (
 
-                              <Table.Row key={produto.id}>
-                                  <Table.Cell>{produto.codigo}</Table.Cell>
-                                  <Table.Cell>{produto.categoria.descricao}</Table.Cell>
-                                  <Table.Cell>{produto.titulo}</Table.Cell>
-                                  <Table.Cell>{produto.descricao}</Table.Cell>
-                                  <Table.Cell>{produto.valorUnitario}</Table.Cell>
-                                  <Table.Cell>{produto.tempoEntregaMaximo}</Table.Cell>
-                                  <Table.Cell>{produto.tempoEntregaMinimo}</Table.Cell>
+                              <Table.Row key={promocao.id}>
+                                  <Table.Cell>{promocao.titulo}</Table.Cell>
+                                  <Table.Cell>{promocao.regra}</Table.Cell>
+                                  <Table.Cell>{formatMoney(promocao.valorDesconto)}</Table.Cell>
+                                  <Table.Cell>{formatarData(promocao.dataInicio)}</Table.Cell>
+                                  <Table.Cell>{formatarData(promocao.dataFim)}</Table.Cell>
+                                 
                                   <Table.Cell textAlign='center'>
 
                                       <Button
                                           inverted
                                           circular
                                           color='green'
-                                          title='Clique aqui para editar os dados deste produto'
-                                          
+                                          title='Clique aqui para editar os dados deste cliente'
                                           icon>
-
-<Link to="/form-produto" state={{id: produto.id}} style={{color: 'green'}}> <Icon name='edit' /> </Link>  
-
-                                        </Button> &nbsp;
-
+                                         <Icon name='edit' />                                      </Button> &nbsp;
                                       <Button
                                                inverted
                                                circular
                                                color='red'
-                                               title='Clique aqui para remover este produto'
-                                               onClick={e => confirmaRemover(produto.id)}
-                                               icon>
+                                               title='Clique aqui para remover este cliente'
+                                               icon
+                                               onClick={e => confirmaRemover(promocao.id)}
+                                               >
+                                                
                                                    <Icon name='trash' />
                                            </Button>
 
@@ -153,6 +160,7 @@ return(
                    </Button>
                </Modal.Actions>
          </Modal>
+
 
        </div>
    )

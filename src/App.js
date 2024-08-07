@@ -1,26 +1,31 @@
-import { Segment } from 'semantic-ui-react'
-import './App.css'
-import Home from './views/home/Home'
-import FormCliente from './views/cliente/FormCliente'
-import Rotas from './Rotas'
+import React from 'react';
+
+import { Segment } from 'semantic-ui-react';
+import './App.css';
+import Rotas from './Rotas';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 
 function App() {
-  return (
-    <div className='App'>
-      <Rotas />
 
-      <div style={{ marginTop: '6%' }}>
-        <Segment
-          vertical
-          color='grey'
-          size='tiny'
-          textAlign='center'
-        >
-          &copy; 2024 - Projeto WEB IV - IFPE Jaboatão dos Guararapes
-        </Segment>
-      </div>
-    </div>
-  )
+ return (
+
+   <div className="App">
+
+      
+     <Rotas />
+
+     <div style={{marginTop: '6%'}}>
+       <Segment vertical color='grey' size='tiny' textAlign='center'>
+         &copy; 2023 - Projeto WEB III - IFPE Jaboatão dos Guararapes
+       </Segment>
+     </div>
+
+   </div>
+  
+ );
 }
 
-export default App
+
+export default App;
